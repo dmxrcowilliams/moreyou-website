@@ -9,99 +9,20 @@
 </head>
 <body>
 
-  <!-- Top Navigation -->
+  <!-- Top Navigation (logo text only, no links) -->
   <header class="nav-bar">
     <div class="logo">
-      <a href="index.html" class="logo-text">[MORE YOU]</a>
-    </div>
-
-    <nav class="nav-links">
-      <a href="hoodies.html">Hoodies</a>
-      <a href="tshirts.html">T-Shirts</a>
-      <a href="crewnecks.html">Crewnecks</a>
-    </nav>
-
-    <div class="nav-icons">
-      <button class="icon-button">
-        <img src="icons/search.svg" alt="Search" class="search-icon">
-      </button>
-      <button class="icon-button">
-        <img src="icons/user.svg" alt="Account" class="user-icon">
-      </button>
-      <button class="icon-button">
-        <img src="icons/heart.svg" alt="Favorites" class="heart-icon">
-      </button>
-      <button class="icon-button" id="cart-toggle">
-        <img src="icons/bag.svg" alt="Cart" class="cart-icon">
-      </button>
+      <span class="logo-text">[MORE YOU]</span>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Maintenance Message -->
   <section class="hero">
-    <div class="hero-overlay"></div>
-    <img src="images/hero-banner.png" alt="More You Banner" class="hero-image">
-
     <div class="hero-text">
-      <h1>IT PAYS TO BE AUTHENTIC.</h1>
-      <p>Expression over approval. Purpose over popularity.</p>
-      <a href="shop.html" class="cta-button">Shop</a>
+      <h1>Down for maintenance</h1>
+      <p>We’ll be back soon.</p>
     </div>
   </section>
-
-  <!-- Shopify cart container (not visible by itself) -->
-  <div id="shopify-cart-container"></div>
-
-  <!-- Shopify Buy Button SDK -->
-  <script src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script>
-
-  <script>
-    (function() {
-      function initShopify() {
-        if (!window.ShopifyBuy || !window.ShopifyBuy.UI) {
-          setTimeout(initShopify, 50);
-          return;
-        }
-
-        var client = ShopifyBuy.buildClient({
-          domain: 'more-you-clothing.myshopify.com',
-          storefrontAccessToken: '1d61514df425b5c6e958af71de0c2d39'
-        });
-
-        ShopifyBuy.UI.onReady(client).then(function(ui) {
-          // Create a cart component so UI has a cart to open
-          ui.createComponent('cart', {
-            node: document.getElementById('shopify-cart-container'),
-            moneyFormat: '%24{{amount}}',
-            options: {
-              cart: {
-                styles: {
-                  button: {
-                    'background-color': '#000',
-                    'color': '#fff',
-                    'font-family': 'Montserrat, sans-serif'
-                  }
-                }
-              },
-              toggle: {
-                sticky: false
-              }
-            }
-          });
-
-          // Hook your bag.svg to open the Shopify cart
-          var cartToggle = document.getElementById('cart-toggle');
-          if (cartToggle) {
-            cartToggle.addEventListener('click', function () {
-              ui.openCart();
-            });
-          }
-        });
-      }
-
-      initShopify();
-    })();
-  </script>
 
 </body>
 </html>
