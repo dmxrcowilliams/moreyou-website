@@ -1,23 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MORE YOU Clothing</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MORE YOU® Clothing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <h1>[MORE YOU]</h1>
-    <nav>
-      <a href="#shop">Shop</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+
+  <!-- Top Navigation -->
+  <header class="nav-bar">
+    <div class="logo">
+      <a href="index.html" class="logo-text">[MORE YOU]</a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="hoodies.html">Hoodies</a>
+      <a href="tshirts.html">T-Shirts</a>
+      <a href="crewnecks.html">Crewnecks</a>
     </nav>
+
+    <div class="nav-icons">
+      <button class="icon-button">
+        <img src="icons/search.svg" alt="Search" class="search-icon">
+      </button>
+      <button class="icon-button">
+        <img src="icons/user.svg" alt="Account" class="user-icon">
+      </button>
+      <button class="icon-button">
+        <img src="icons/heart.svg" alt="Favorites" class="heart-icon">
+      </button>
+      <button class="icon-button" id="cart-toggle">
+        <img src="icons/bag.svg" alt="Cart" class="cart-icon">
+      </button>
+    </div>
   </header>
 
-  <section id="shop">
-    <h2>New Collection</h2>
-    <p>Custom apparel launching soon.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <img src="images/hero-banner.png" alt="More You Banner" class="hero-image">
+
+    <div class="hero-text">
+      <h1>IT PAYS TO BE AUTHENTIC.</h1>
+      <p>Expression over approval. Purpose over popularity.</p>
+      <a href="shop.html" class="cta-button">Shop</a>
+    </div>
   </section>
+
+  <!-- Shopify cart container (not visible by itself) -->
+  <div id="shopify-cart-container"></div>
+
+  <!-- Shopify Buy Button SDK -->
+  <script src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script>
+
+  <script>
+    (function() {
+      function initShopify() {
+        if (!window.ShopifyBuy || !window.ShopifyBuy.UI) {
+          setTimeout(initShopify, 50);
+          return;
+        }
+
+        var client = ShopifyBuy.buildClient({
+          domain: 'more-you-clothing.myshopify.com',
+          storefrontAccessToken: '1d61514df425b5c6e958af71de0c2d39'
+        });
+
+        ShopifyBuy.UI.onReady(client).then(function(ui) {
+          // Create a cart component so UI has a cart to open
+          ui.createComponent('cart', {
+            node: document.getElementById('shopify-cart-container'),
+            moneyFormat: '%24{{amount}}',
+            options: {
+              cart: {
+                styles: {
+                  button: {
+                    'background-color': '#000',
+                    'color': '#fff',
+                    'font-family': 'Montserrat, sans-serif'
+                  }
+                }
+              },
+              toggle: {
+                sticky: false
+              }
+            }
+          });
+
+          // Hook your bag.svg to open the Shopify cart
+          var cartToggle = document.getElementById('cart-toggle');
+          if (cartToggle) {
+            cartToggle.addEventListener('click', function () {
+              ui.openCart();
+            });
+          }
+        });
+      }
+
+      initShopify();
+    })();
+  </script>
+
 </body>
 </html>

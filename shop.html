@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MORE YOU® Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="nav-bar">
+    <div class="logo">
+      <a href="index.html" class="logo-text">[MORE YOU]</a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="hoodies.html">Hoodies</a>
+      <a href="tshirts.html">T-Shirts</a>
+      <a href="crewnecks.html">Crewnecks</a>
+    </nav>
+
+    <div class="nav-icons">
+      <button class="icon-button">
+        <img src="icons/search.svg" alt="Search" class="search-icon">
+      </button>
+      <button class="icon-button">
+        <img src="icons/user.svg" alt="Account" class="user-icon">
+      </button>
+      <button class="icon-button">
+        <img src="icons/heart.svg" alt="Favorites" class="heart-icon">
+      </button>
+      <button class="icon-button" id="cart-toggle">
+        <img src="icons/bag.svg" alt="Cart" class="cart-icon">
+      </button>
+    </div>
+  </header>
+
+  <!-- Main shop content -->
+  <main class="page-content section-pad-top">
+    <div class="section-header">
+      <h1>Shop</h1>
+      <p class="collection-subtitle">Random filler subtitle text. Insert whatever it’s here.</p>
+    </div>
+
+    <!-- Filter pills -->
+    <div class="filters-row" id="shop-filters">
+      <button class="filter-pill" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="new">New</button>
+      <button class="filter-pill" data-filter="hoodies">Hoodies</button>
+      <button class="filter-pill" data-filter="tshirts">T-Shirts</button>
+      <button class="filter-pill" data-filter="crewnecks">Crewnecks</button>
+    </div>
+
+    <!-- Shopify collections containers -->
+    <section class="collection-section" id="collection-all-section">
+      <div id="all-hoodies-collection"></div>
+      <div style="margin-top:32px;" id="all-tshirts-collection"></div>
+    </section>
+
+    <section class="collection-section" id="collection-hoodies-section" style="display:none;">
+      <div id="hoodies-collection"></div>
+    </section>
+
+    <section class="collection-section" id="collection-tshirts-section" style="display:none;">
+      <div id="tshirts-collection"></div>
+    </section>
+
+    <section class="collection-section" id="collection-crewnecks-section" style="display:none;">
+      <p class="collection-subtitle">Crewneck collection coming soon.</p>
+    </section>
+
+  </main>
+
+  <!-- Shopify Buy Button SDK -->
+  <script src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script>
+
+  <script>
+    // ---------- FILTER LOGIC ----------
+    (function() {
+      const filterButtons = document.querySelectorAll('#shop-filters .filter-pill');
+      const sections = {
+        all: document.getElementById('collection-all-section'),
+        hoodies: document.getElementById('collection-hoodies-section'),
+        tshirts: document.getElementById('collection-tshirts-section'),
+        crewnecks: document.getElementById('collection-crewnecks-section')
+      };
+
+      function setFilter(name) {
+        filterButtons.forEach(btn => {
+          if (btn.dataset.filter === name) btn.classList.add('is-active');
+          else btn.classList.remove('is-active');
+        });
+
+        Object.keys(sections).forEach(key => {
+          sections[key].style.display =
+            (key === name) ? 'block' :
+            (name === 'all' && key === 'all') ? 'block' :
+            'none';
+        });
+
+        if (name === 'new') {
+          sections.all.style.display = 'block';
+        }
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const initial = params.get('collection') || 'all';
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const value = btn.dataset.filter;
+          if (value === 'new') setFilter('new');
+          else setFilter(value);
+        });
+      });
+
+      if (['hoodies', 'tshirts', 'crewnecks', 'new'].includes(initial)) {
+        setFilter(initial);
+      } else {
+        setFilter('all');
+      }
+    })();
+  </script>
+
+  <script>
+    // ---------- SHOPIFY BUY COMPONENTS ----------
+    (function() {
+      function initShopify() {
+        if (!window.ShopifyBuy || !window.ShopifyBuy.UI) {
+          setTimeout(initShopify, 50);
+          return;
+        }
+
+        var client = ShopifyBuy.buildClient({
+          domain: 'more-you-clothing.myshopify.com',
+          storefrontAccessToken: '1d61514df425b5c6e958af71de0c2d39'
+        });
+
+        ShopifyBuy.UI.onReady(client).then(function(ui) {
+          const commonOptions = {
+            moneyFormat: '%24{{amount}}',
+            options: {
+              product: {
+                isButton: false,
+                contents: {
+                  img: true,
+                  imgWithCarousel: false,
+                  title: true,
+                  price: true,
+                  button: true
+                },
+                text: {
+                  button: 'Add to cart'
+                },
+                styles: {
+                  product: {
+                    '@media (min-width: 768px)': {
+                      'max-width': 'calc(25% - 24px)',
+                      'margin': '12px'
+                    },
+                    'box-shadow': '0 2px 10px rgba(0,0,0,0.06)',
+                    'border-radius': '12px',
+                    'overflow': 'hidden'
+                  },
+                  title: {
+                    'font-family': 'Montserrat, sans-serif',
+                    'font-weight': '600',
+                    'font-size': '14px'
+                  },
+                  price: {
+                    'font-family': 'Montserrat, sans-serif',
+                    'font-size': '14px'
+                  },
+                  button: {
+                    'font-family': 'Montserrat, sans-serif',
+                    'background-color': '#000',
+                    'color': '#fff',
+                    'padding': '10px 16px',
+                    'border-radius': '9999px',
+                    'font-size': '13px',
+                    'text-transform': 'uppercase',
+                    'letter-spacing': '0.06em'
+                  }
+                }
+              },
+              productSet: {
+                styles: {
+                  products: {
+                    '@media (min-width: 768px)': {
+                      'display': 'flex',
+                      'flex-wrap': 'wrap',
+                      'margin': '-12px'
+                    }
+                  }
+                }
+              },
+              cart: {
+                startOpen: false,
+                styles: {
+                  button: {
+                    'background-color': '#000',
+                    'color': '#fff',
+                    'font-family': 'Montserrat, sans-serif'
+                  }
+                }
+              }
+            }
+          };
+
+          // All page collections
+          ui.createComponent('collection', {
+            id: '458234167512', // Hoodies
+            node: document.getElementById('all-hoodies-collection'),
+            moneyFormat: commonOptions.moneyFormat,
+            options: commonOptions.options
+          });
+
+          ui.createComponent('collection', {
+            id: '458137174232', // T-Shirts
+            node: document.getElementById('all-tshirts-collection'),
+            moneyFormat: commonOptions.moneyFormat,
+            options: commonOptions.options
+          });
+
+          // Hoodies-only
+          ui.createComponent('collection', {
+            id: '458234167512',
+            node: document.getElementById('hoodies-collection'),
+            moneyFormat: commonOptions.moneyFormat,
+            options: commonOptions.options
+          });
+
+          // T-Shirts-only
+          ui.createComponent('collection', {
+            id: '458137174232',
+            node: document.getElementById('tshirts-collection'),
+            moneyFormat: commonOptions.moneyFormat,
+            options: commonOptions.options
+          });
+
+          // Hook bag icon
+          var cartToggle = document.getElementById('cart-toggle');
+          if (cartToggle) {
+            cartToggle.addEventListener('click', function () {
+              ui.openCart();
+            });
+          }
+        });
+      }
+
+      initShopify();
+    })();
+  </script>
+
+</body>
+</html>

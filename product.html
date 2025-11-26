@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product – MORE YOU®</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="product">
+
+  <header class="nav-bar">
+    <div class="logo">
+      <a href="index.html" class="logo-text">[MORE YOU]</a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="shop.html?collection=hoodies">Hoodies</a>
+      <a href="shop.html?collection=tshirts">T-Shirts</a>
+      <a href="shop.html?collection=crewnecks">Crewnecks</a>
+    </nav>
+
+    <div class="nav-icons">
+      <button class="icon-button" aria-label="Search">
+        <img src="icons/search.svg" alt="Search icon">
+      </button>
+      <button class="icon-button" aria-label="Account">
+        <img src="icons/user.svg" alt="User icon">
+      </button>
+      <button class="icon-button" aria-label="Favorites">
+        <img src="icons/heart.svg" alt="Heart icon">
+      </button>
+      <button class="icon-button cart-toggle" aria-label="Cart">
+        <img src="icons/bag.svg" alt="Cart icon" class="cart-icon">
+        <span class="cart-count-badge" data-cart-count>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-content section-pad">
+    <div class="product-page-layout">
+      <div class="product-media" data-product-media>
+        <!-- JS inserts main image + thumbs -->
+        <img src="images/placeholder-product.png" alt="Product placeholder" class="product-main-image">
+      </div>
+
+      <div class="product-details" data-product-details>
+        <h1 class="product-title" data-product-title>Loading...</h1>
+        <p class="product-price" data-product-price>$0.00</p>
+        <p class="product-description" data-product-description>
+          Random filler description text for this item. Insert whatever bio text here.
+        </p>
+
+        <div class="product-options">
+          <div class="product-option-group" data-option-group="Size">
+            <span class="option-label">Size</span>
+            <div class="option-buttons" data-option-values></div>
+          </div>
+        </div>
+
+        <div class="product-cta-row">
+          <button class="primary-button" data-add-to-cart disabled>
+            Add to Bag
+          </button>
+        </div>
+
+        <p class="product-meta">
+          Fulfilled by Tapstitch / Printful. Shipping details: insert whatever it’s here.
+        </p>
+      </div>
+    </div>
+
+    <section class="section section-pad-top">
+      <div class="section-header">
+        <h2>You may also like</h2>
+      </div>
+      <div class="product-grid" data-related-grid>
+        <!-- JS related products -->
+      </div>
+    </section>
+  </main>
+
+  <aside class="cart-drawer" data-cart-drawer>
+    <div class="cart-drawer-overlay" data-cart-overlay></div>
+    <div class="cart-drawer-panel">
+      <header class="cart-drawer-header">
+        <h2>Your Bag</h2>
+        <button class="cart-close" data-cart-close>&times;</button>
+      </header>
+
+      <div class="cart-items" data-cart-items></div>
+
+      <footer class="cart-drawer-footer">
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span data-cart-subtotal>$0.00</span>
+        </div>
+        <p class="cart-note">Taxes & shipping calculated at checkout.</p>
+        <button class="cart-checkout-button" data-cart-checkout>Checkout</button>
+      </footer>
+    </div>
+  </aside>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
